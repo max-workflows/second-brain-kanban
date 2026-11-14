@@ -1,0 +1,8 @@
+# Copy this file to private-terms.txt (it is git-ignored, so it never leaves your computer).
+# One term per line, matched case-insensitively as a WHOLE WORD ("bob" blocks "bob", not "bobcat").
+# Put in things that must never appear in a public repository:
+# your Windows user name, your real name, client or company names.
+# Do not list your public GitHub login: it is public anyway, and full email addresses
+# are already blocked by the built-in email check.
+your-windows-username
+Client Company Name
