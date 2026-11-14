@@ -1,42 +1,30 @@
 "use client";
 
 import { useState } from "react";
+import { parseTagInput } from "@/lib/text";
 
-export function AddCardForm({ onAdd }: { onAdd: (title: string, details: string) => void }) {
-  const [open, setOpen] = useState(false);
+type NewCard = { title: string; details: string; tags: string[] };
+
+const fieldClass =
+  "w-full rounded-md border border-navy/15 bg-surface px-2 py-1.5 text-sm text-navy outline-none focus:border-primary";
+
+function Form({ onAdd, onClose }: { onAdd: (card: NewCard) => void; onClose: () => void }) {
   const [title, setTitle] = useState("");
   const [details, setDetails] = useState("");
-
-  const close = () => {
-    setOpen(false);
-    setTitle("");
-    setDetails("");
-  };
-
-  if (!open) {
-    return (
-      <button
-        type="button"
-        onClick={() => setOpen(true)}
-        className="w-full rounded-lg border border-dashed border-navy/20 px-3 py-2 text-sm font-medium text-primary transition-colors hover:border-primary hover:bg-white"
-      >
-        + Add a card
-      </button>
-    );
-  }
+  const [tags, setTags] = useState("");
 
   return (
     <form
       onSubmit={(e) => {
         e.preventDefault();
         if (!title.trim()) return;
-        onAdd(title, details);
-        close();
+        onAdd({ title, details, tags: parseTagInput(tags) });
+        onClose();
       }}
       onKeyDown={(e) => {
-        if (e.key === "Escape") close();
+        if (e.key === "Escape") onClose();
       }}
-      className="space-y-2 rounded-lg border border-navy/10 bg-white p-2.5 shadow-sm"
+      className="space-y-2 rounded-lg border border-navy/10 bg-surface p-2.5 shadow-sm"
     >
       <input
         autoFocus
@@ -44,7 +32,7 @@ export function AddCardForm({ onAdd }: { onAdd: (title: string, details: string)
         placeholder="Card title"
         value={title}
         onChange={(e) => setTitle(e.target.value)}
-        className="w-full rounded-md border border-navy/15 px-2 py-1.5 text-sm text-navy outline-none focus:border-primary"
+        className={fieldClass}
       />
       <textarea
         aria-label="Card details"
@@ -52,7 +40,14 @@ export function AddCardForm({ onAdd }: { onAdd: (title: string, details: string)
         rows={2}
         value={details}
         onChange={(e) => setDetails(e.target.value)}
-        className="w-full resize-none rounded-md border border-navy/15 px-2 py-1.5 text-sm text-navy outline-none focus:border-primary"
+        className={`${fieldClass} resize-none`}
+      />
+      <input
+        aria-label="Card tags"
+        placeholder="#tags (optional)"
+        value={tags}
+        onChange={(e) => setTags(e.target.value)}
+        className={fieldClass}
       />
       <div className="flex gap-2">
         <button
@@ -63,7 +58,7 @@ export function AddCardForm({ onAdd }: { onAdd: (title: string, details: string)
         </button>
         <button
           type="button"
-          onClick={close}
+          onClick={onClose}
           className="rounded-md px-3 py-1.5 text-sm text-muted transition-colors hover:bg-navy/5 hover:text-navy"
         >
           Cancel
@@ -71,4 +66,22 @@ export function AddCardForm({ onAdd }: { onAdd: (title: string, details: string)
       </div>
     </form>
   );
+}
+
+type Props = { open: boolean; onOpenChange: (open: boolean) => void; onAdd: (card: NewCard) => void };
+
+/** The form only exists while it is open, so it always starts empty. */
+export function AddCardForm({ open, onOpenChange, onAdd }: Props) {
+  if (!open) {
+    return (
+      <button
+        type="button"
+        onClick={() => onOpenChange(true)}
+        className="w-full rounded-lg border border-dashed border-navy/20 px-3 py-2 text-sm font-medium text-primary transition-colors hover:border-primary hover:bg-surface"
+      >
+        + Add a card
+      </button>
+    );
+  }
+  return <Form onAdd={onAdd} onClose={() => onOpenChange(false)} />;
 }

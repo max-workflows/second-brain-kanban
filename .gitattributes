@@ -4,3 +4,6 @@
 *.jpeg binary
 *.gif binary
 *.ico binary
+
+# Windows batch files need CRLF line endings
+*.cmd text eol=crlf

@@ -6,7 +6,7 @@ Status legend: done, in progress, todo.
 Git repository, `.gitignore`, `.gitattributes`, pre-commit scanner for secrets and personal data.
 - Scanner blocks tokens, webhook URLs, emails, user paths, private files and private terms. Tested on fake data.
 
-## Phase 1. Project scaffolding: in progress
+## Phase 1. Project scaffolding: done
 Files: `AGENTS.md`, `CLAUDE.md`, `README.md`, this plan.
 Success criteria:
 - All four files exist and describe the same project, rules and layout.
@@ -14,16 +14,22 @@ Success criteria:
 - Nothing from the real vault or the owner's machine appears in the repository.
 - First commit made only when the owner asks.
 
-## Phase 2. Kanban MVP: todo
+## Phase 2. Kanban MVP: done
 Next.js app in `frontend/`, five renameable columns, cards with title and details, drag and drop, add and delete, dummy data.
+Verified: unit tests, Playwright tests in a real browser (add, edit, delete, rename, drag and drop), production build, no console errors.
+Also added: `start.cmd` for one-click start on Windows.
 Success criteria:
 - `npm run dev` opens a board with five columns and sample cards.
 - A column can be renamed; a card can be added, deleted and dragged between columns.
 - Unit tests pass. Playwright tests cover add, delete, rename and move. The production build succeeds.
 - No errors in the browser console during these flows.
 
-## Phase 3. Markdown storage: todo
-The board reads and writes `Kanban.md` and `Tasks/*.md` under `VAULT_PATH`.
+## Phase 3. Markdown storage: done
+The board reads and writes `Kanban.md` and `Tasks/*.md` under `VAULT_PATH`. See [VAULT-FORMAT.md](VAULT-FORMAT.md).
+Also added: card editor, tags, live refresh from disk, deleted cards archived instead of erased, API limited to the local machine.
+Also added: dark theme (system, light or dark, remembered, no flash on load; contrast checked by a test) and keyboard shortcuts
+(new card, edit, move, theme, help; they work on any keyboard layout).
+Not done on purpose: column card limits, search.
 Success criteria:
 - Create, rename, move and delete in the UI are reflected in the files. Opening a card shows and edits its task file.
 - Round-trip test: parse and write `Kanban.md` without changing it.

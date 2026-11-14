@@ -1,27 +1,10 @@
-export type Card = { id: string; title: string; details: string };
+import { cleanTitle, normalizeTags } from "./text";
+
+export type Card = { id: string; title: string; details: string; tags: string[] };
 export type Column = { id: string; title: string; cardIds: string[] };
 export type Board = { columns: Column[]; cards: Record<string, Card> };
 
-export function createInitialBoard(): Board {
-  const cards: Card[] = [
-    { id: "c1", title: "Plan the weekly review", details: "Pick a fixed slot and a short checklist." },
-    { id: "c2", title: "Write onboarding notes", details: "How the board and the vault fit together." },
-    { id: "c3", title: "Design the card layout", details: "Title, short details, quick actions menu." },
-    { id: "c4", title: "Set up the sample vault", details: "A few fake notes so the demo is not empty." },
-    { id: "c5", title: "Build drag and drop", details: "Move cards between columns with the mouse or keyboard." },
-    { id: "c6", title: "Check color contrast", details: "Text and accents must stay readable." },
-    { id: "c7", title: "Create the project plan", details: "Phases with success criteria." },
-    { id: "c8", title: "Set up Git and the commit scanner", details: "Keep secrets and personal data out of the repo." },
-  ];
-  const columns: Column[] = [
-    { id: "backlog", title: "Backlog", cardIds: ["c1", "c2"] },
-    { id: "next", title: "Next", cardIds: ["c3", "c4"] },
-    { id: "in-progress", title: "In progress", cardIds: ["c5"] },
-    { id: "review", title: "Review", cardIds: ["c6"] },
-    { id: "done", title: "Done", cardIds: ["c7", "c8"] },
-  ];
-  return { columns, cards: Object.fromEntries(cards.map((c) => [c.id, c])) };
-}
+export const MAX_DETAILS = 20_000;
 
 export function findColumnOfCard(board: Board, cardId: string): Column | undefined {
   return board.columns.find((col) => col.cardIds.includes(cardId));
@@ -30,18 +13,36 @@ export function findColumnOfCard(board: Board, cardId: string): Column | undefin
 export function addCard(
   board: Board,
   columnId: string,
-  title: string,
-  details = "",
-  id: string = crypto.randomUUID(),
+  input: { title: string; details?: string; tags?: string[] },
+  id: string,
 ): Board {
-  const cleanTitle = title.trim();
-  if (!cleanTitle || !board.columns.some((c) => c.id === columnId)) return board;
+  const title = cleanTitle(input.title);
+  if (!title || board.cards[id] || !board.columns.some((c) => c.id === columnId)) return board;
+  const card: Card = {
+    id,
+    title,
+    details: (input.details ?? "").trim().slice(0, MAX_DETAILS),
+    tags: normalizeTags(input.tags ?? []),
+  };
   return {
-    cards: { ...board.cards, [id]: { id, title: cleanTitle, details: details.trim() } },
+    cards: { ...board.cards, [id]: card },
     columns: board.columns.map((col) =>
       col.id === columnId ? { ...col, cardIds: [...col.cardIds, id] } : col,
     ),
   };
+}
+
+export function updateCard(
+  board: Board,
+  cardId: string,
+  patch: { title?: string; details?: string; tags?: string[] },
+): Board {
+  const card = board.cards[cardId];
+  if (!card) return board;
+  const title = patch.title === undefined ? card.title : cleanTitle(patch.title) || card.title;
+  const details = patch.details === undefined ? card.details : patch.details.trim().slice(0, MAX_DETAILS);
+  const tags = patch.tags === undefined ? card.tags : normalizeTags(patch.tags);
+  return { ...board, cards: { ...board.cards, [cardId]: { ...card, title, details, tags } } };
 }
 
 export function deleteCard(board: Board, cardId: string): Board {
@@ -54,11 +55,11 @@ export function deleteCard(board: Board, cardId: string): Board {
 }
 
 export function renameColumn(board: Board, columnId: string, title: string): Board {
-  const cleanTitle = title.trim();
-  if (!cleanTitle) return board;
+  const cleanName = cleanTitle(title);
+  if (!cleanName) return board;
   return {
     ...board,
-    columns: board.columns.map((col) => (col.id === columnId ? { ...col, title: cleanTitle } : col)),
+    columns: board.columns.map((col) => (col.id === columnId ? { ...col, title: cleanName } : col)),
   };
 }
 

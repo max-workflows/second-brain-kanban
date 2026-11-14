@@ -43,7 +43,7 @@ export function Menu({ label, items }: { label: string; items: MenuItem[] }) {
       {open && (
         <div
           role="menu"
-          className="absolute right-0 z-30 mt-1 min-w-40 rounded-lg border border-navy/10 bg-white py-1 shadow-lg"
+          className="absolute right-0 z-30 mt-1 min-w-40 rounded-lg border border-navy/10 bg-surface py-1 shadow-lg"
         >
           {items.map((item) => (
             <button
@@ -55,7 +55,7 @@ export function Menu({ label, items }: { label: string; items: MenuItem[] }) {
                 item.onSelect();
               }}
               className={`block w-full px-3 py-1.5 text-left text-sm hover:bg-navy/5 ${
-                item.danger ? "text-red-600" : "text-navy"
+                item.danger ? "text-danger" : "text-navy"
               }`}
             >
               {item.label}

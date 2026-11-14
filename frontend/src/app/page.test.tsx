@@ -1,11 +1,17 @@
 import { render, screen } from "@testing-library/react";
-import { describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
+import { installFakeApi } from "@/test/fakeApi";
 import Home from "./page";
 
+afterEach(() => {
+  vi.unstubAllGlobals();
+});
+
 describe("Home page", () => {
-  it("shows the page title and the board", () => {
+  it("shows the page title and the board", async () => {
+    installFakeApi();
     render(<Home />);
     expect(screen.getByRole("heading", { level: 1, name: "Kanban" })).toBeInTheDocument();
-    expect(screen.getAllByRole("heading", { level: 2 })).toHaveLength(5);
+    expect(await screen.findAllByRole("heading", { level: 2 })).toHaveLength(5);
   });
 });

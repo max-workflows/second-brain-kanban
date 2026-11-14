@@ -32,3 +32,9 @@ desktop.ini
 .idea/
 .vscode/*
 !.vscode/extensions.json
+
+# Throw-away demo copy of sample-vault (created when VAULT_PATH is not set)
+.demo-vault/
+
+# End-to-end build output
+.next-e2e/

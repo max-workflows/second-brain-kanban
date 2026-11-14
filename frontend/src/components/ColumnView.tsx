@@ -12,12 +12,25 @@ type Props = {
   column: Column;
   cards: Card[];
   highlighted: boolean;
+  adding: boolean;
+  onAddingChange: (open: boolean) => void;
   onRename: (title: string) => void;
-  onAddCard: (title: string, details: string) => void;
+  onAddCard: (card: { title: string; details: string; tags: string[] }) => void;
+  onOpenCard: (cardId: string) => void;
   onDeleteCard: (cardId: string) => void;
 };
 
-export function ColumnView({ column, cards, highlighted, onRename, onAddCard, onDeleteCard }: Props) {
+export function ColumnView({
+  column,
+  cards,
+  highlighted,
+  adding,
+  onAddingChange,
+  onRename,
+  onAddCard,
+  onOpenCard,
+  onDeleteCard,
+}: Props) {
   const { setNodeRef } = useDroppable({ id: column.id });
   const [editing, setEditing] = useState(false);
   const headingId = `column-${column.id}`;
@@ -45,7 +58,7 @@ export function ColumnView({ column, cards, highlighted, onRename, onAddCard, on
               if (e.key === "Enter") commit(e.currentTarget.value);
               if (e.key === "Escape") setEditing(false);
             }}
-            className="min-w-0 flex-1 rounded-md border border-primary bg-white px-2 py-1 text-sm font-semibold text-navy outline-none"
+            className="min-w-0 flex-1 rounded-md border border-primary bg-surface px-2 py-1 text-sm font-semibold text-navy outline-none"
           />
         ) : (
           <h2 id={headingId} className="min-w-0 flex-1 truncate text-sm font-semibold text-navy">
@@ -54,7 +67,7 @@ export function ColumnView({ column, cards, highlighted, onRename, onAddCard, on
         )}
         <span
           aria-label={`${cards.length} cards`}
-          className="rounded-full bg-white px-2 py-0.5 text-xs font-medium text-muted"
+          className="rounded-full bg-surface px-2 py-0.5 text-xs font-medium text-muted"
         >
           {cards.length}
         </span>
@@ -67,13 +80,18 @@ export function ColumnView({ column, cards, highlighted, onRename, onAddCard, on
       <div ref={setNodeRef} className="flex min-h-16 flex-1 flex-col gap-2">
         <SortableContext items={cards.map((c) => c.id)} strategy={verticalListSortingStrategy}>
           {cards.map((card) => (
-            <CardView key={card.id} card={card} onDelete={() => onDeleteCard(card.id)} />
+            <CardView
+              key={card.id}
+              card={card}
+              onOpen={() => onOpenCard(card.id)}
+              onDelete={() => onDeleteCard(card.id)}
+            />
           ))}
         </SortableContext>
       </div>
 
       <div className="mt-3">
-        <AddCardForm onAdd={onAddCard} />
+        <AddCardForm open={adding} onOpenChange={onAddingChange} onAdd={onAddCard} />
       </div>
     </section>
   );
