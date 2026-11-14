@@ -54,7 +54,8 @@ Shortcuts use the physical key, so they work on any keyboard layout (for example
 ## Second brain
 
 Next to the board, the vault holds a wiki that an AI agent keeps (sources, entities, concepts, synthesis, index, log),
-with a schema, session hooks and a lint tool. See [docs/SECOND-BRAIN.md](docs/SECOND-BRAIN.md).
+with a schema, session hooks and a lint tool. See [docs/SECOND-BRAIN.md](docs/SECOND-BRAIN.md), and
+[docs/OBSIDIAN.md](docs/OBSIDIAN.md) for using the vault in Obsidian.
 
 ```
 node scripts/init-vault.mjs vault-data    # set up your own vault (never overwrites)
