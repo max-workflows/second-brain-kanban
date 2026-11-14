@@ -51,12 +51,22 @@ system, light and dark, and remembers the choice.
 
 Shortcuts use the physical key, so they work on any keyboard layout (for example Ukrainian).
 
+## Second brain
+
+Next to the board, the vault holds a wiki that an AI agent keeps (sources, entities, concepts, synthesis, index, log),
+with a schema, session hooks and a lint tool. See [docs/SECOND-BRAIN.md](docs/SECOND-BRAIN.md).
+
+```
+node scripts/init-vault.mjs vault-data    # set up your own vault (never overwrites)
+```
+
 ## Tests
 
 ```
-npm run test        # unit and component tests (Vitest)
-npm run test:e2e    # browser tests (Playwright), on a copy of sample-vault
-npm run lint
+npm run test        # in frontend/: unit and component tests (Vitest)
+npm run test:e2e    # in frontend/: browser tests (Playwright), on a copy of sample-vault
+npm run lint        # in frontend/
+python -m unittest discover -s tools/tests -t .    # hooks, lint tool, vault setup
 ```
 
 ## Origin
@@ -70,7 +80,9 @@ extended with Markdown storage and a second-brain layer. Built together with Cla
 frontend/       Next.js board and the vault API
 sample-vault/   example vault with fake data
 vault-data/     private vault, git-ignored (not part of the repository)
-docs/           plan and file format
+docs/           plan, file format, second-brain layer
+scripts/        init-vault.mjs
+tools/tests/    Python tests for the hooks and the lint tool
 .githooks/      pre-commit scan for secrets and personal data
 start.cmd       one-click start on Windows
 ```

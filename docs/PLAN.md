@@ -36,7 +36,12 @@ Success criteria:
 - An edit made in Obsidian shows up after reload. Writes are atomic and re-read the file first.
 - With `VAULT_PATH` unset the app uses `sample-vault/`.
 
-## Phase 4. Second-brain layer: todo
+## Phase 4. Second-brain layer: done
+Done: schema (`sample-vault/AGENTS.md`), SessionStart and Stop hooks, lint script, routine prompts, `scripts/init-vault.mjs`,
+a demo vault with two invented sources (ingested, one marked contradiction, one saved answer, one lint report), the owner's
+private vault set up. Details in [SECOND-BRAIN.md](SECOND-BRAIN.md). 39 Python tests.
+Not done on purpose: the scheduled tasks themselves (the prompts are ready; scheduling is the owner's choice).
+Original plan:
 Vault conventions for the owner's knowledge base: `raw/` sources, `wiki/` pages, index, log, hotcache; ingest, query and lint
 operations; session hooks and scheduled routines. Lives in the vault; `sample-vault/` shows it working with fake demo data.
 Success criteria:
