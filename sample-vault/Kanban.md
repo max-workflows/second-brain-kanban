@@ -13,7 +13,7 @@ kanban-plugin: board
 ## Next
 
 - [ ] [[Tasks/T003-design-the-card-layout|Design the card layout]] #design
-- [ ] [[Tasks/T004-set-up-the-sample-vault|Set up the sample vault]] #vault
+- [ ] [[Tasks/T004-let-the-agent-pick-up-cards-from-next|Let the agent pick up cards from Next]] #agent
 
 
 ## In progress
