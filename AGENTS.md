@@ -58,7 +58,8 @@ Gray `#888888` for supporting text and labels.
 
 1. For each phase, check `docs/PLAN.md`, state the success criteria, then implement.
 2. Test before reporting: run unit tests, end-to-end tests and the build. Report what was and was not verified.
-3. Keep code concise, no over-engineering, no unnecessary defensive code. Keep the README minimal. No emojis.
+3. Keep code concise, no over-engineering, no unnecessary defensive code. The README says what the project is, why it
+   exists and what works, nothing more. Claim only what was verified. No emojis.
 4. Update the phase status in `docs/PLAN.md` when criteria are met.
 
 ## Safety rules (must follow)
@@ -67,7 +68,6 @@ Gray `#888888` for supporting text and labels.
 - Never commit anything from `vault-data/`. Never force-add ignored files (`git add -f`). Real data is never copied into
   `sample-vault/`; invent fake data.
 - Keep the pre-commit scanner enabled (`core.hooksPath` is `.githooks`). Never bypass hooks (`--no-verify`).
-- Do not commit, push or publish unless the owner asks. The GitHub repository stays private until the owner approves a
-  pre-publication review of every tracked file.
+- Do not commit, push or publish unless the owner asks. Every tracked file is reviewed before the repository is made public.
 - Do not edit the owner's portfolio or any external page. Write suggestions in the chat instead.
 - Language: code, comments and repository docs are in English. Talk to the owner in Ukrainian.
