@@ -1,5 +1,7 @@
 # Second Brain + Kanban
 
+[![CI](https://github.com/max-workflows/second-brain-kanban/actions/workflows/ci.yml/badge.svg)](https://github.com/max-workflows/second-brain-kanban/actions/workflows/ci.yml)
+
 A local-first Kanban board whose cards are plain Markdown files, next to a Markdown "second brain" wiki that an AI agent
 keeps. People, Obsidian and agents all read and edit the same files.
 
@@ -148,6 +150,9 @@ python -m unittest discover -s tools/tests -t .    # hooks, lint tool, vault set
 The board follows the Week 1 project brief of the course "AI Coder: From Vibe Coder to Agentic Engineer" by Ed Donner,
 extended with Markdown storage and a second-brain layer. The code in this repository was written for it together with
 Claude Code. It is released under the [MIT License](LICENSE).
+
+Claude and Claude Code are trademarks of Anthropic. This project is independent and is not affiliated with or endorsed
+by Anthropic.
 
 ## Repository
 
